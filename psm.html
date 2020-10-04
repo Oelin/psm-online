@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <meta name='viewport' value='width=device-width,initial-scale=1'>
+    <title>psm</title>
+    <style>
+      body {
+        top: 0;
+        left: 0;
+        margin: 0;
+      }
+
+      .code {
+        display: block;
+        height: 100%;
+        grid-area: c;
+        background: #222;
+        padding: 1.4rem;
+        border: none;
+        color: rgba(0, 224, 180, 1);
+        outline: none;
+        font-family: monospace;
+      }
+
+      ::selection {
+        background: #555;
+      }
+
+      main {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-areas:
+        'c'
+        'o';
+      }
+
+      .output {
+        grid-area: o;
+        background: #222;
+        border-top: 2px solid #333;
+        
+        font-family: monospace;
+        font-size: 14px;
+        color: red;
+      }
+
+      @media screen and (min-width: 800px) {
+        main { grid-template-areas: 'c c c o o o'; }
+        .output { border-top: none; border-left: 2px solid #333;}
+      }
+
+      @media screen and (min-width: 1100px) {
+        main { grid-template-areas: 'c c c c o o';}
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <textarea class='code' spellcheck=false></textarea>
+      <div class='output'>
+        <div class='constrain'>
+          <h6>psm 0.1 <a href='#'>docs</a></div>
+      </div>
+    </main>
+    <script>psm=a=>{let b=["addrr","addrv","subrr","subrv","andrr","orrr","xorrr","notr","bv","movrr","movrv","loadrv","storr","stovr","testrr","pass"],c=a=>a.replaceAll(/^\s*[\r\n]+|#.*/gm,"").replaceAll(/:[\n\s]+/g,":").trim(),d=a=>{let b;return a.map(a=>(b=a.match(/^([a-zA-Z_][\w_]*):/))&&b[1])},e=a=>{a=c(a);let b=a.split("\n");return d(b).forEach((b,c)=>{a=a.replaceAll(`$${b}`,c).replaceAll(`${b}:`,"")}),a},f=a=>a.replaceAll(","," ").replaceAll(/\s+/g," ").split(" "),g=a=>a.map(b=>isNaN(parseInt(b))?"r":"v"),h=a=>[...a.matchAll(/("[^"]*"|\d+)/g)].map(a=>JSON.parse(a[0])),i=a=>{let b=f(a),[c,d,e]=b.shift().match(/([abd-y]+)([zc])?/),h=g(b),i=b.filter((b,a)=>"r"==h[a]).map(a=>"abcd".indexOf(a)),j=parseInt(b[h.indexOf("v")]);return{k:d+h.join(""),f:e,v:j,r:i}},j=a=>a.map(a=>a.match(/^[a-z]+$|[a-z]+\s(\s*([a-d]|\d+)(,|$))*$/)?i(a):h(a));return(a=>{let c=j(e(a).split("\n"));return new Int32Array(c.map(a=>{if(a.k){let c=b.indexOf(a.k),d="cz".indexOf(a.f||"c"),e=0+!!a.f,f=-1<a.r[0]?a.r[0]:0,g=-1<a.r[1]?a.r[1]:0;a.k.startsWith("sto")&&([f,g]=[g,f]);let h=a.v||0;return h+(g<<21)+(f<<23)+(e<<25)+(d<<26)+(c<<27)}return a.map(a=>"string"==typeof a?a.split("").map(a=>a.charCodeAt(0)):a)}).flat())})(a)};</script>
+    <script>
+      let code = document.querySelector('.code')
+      code.innerText = '# put your code here\n'
+      code.focus()
+    </script>
+  </body>
+</html>
